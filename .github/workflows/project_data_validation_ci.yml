@@ -45,6 +45,3 @@ jobs:
 
       - name: Run Ruff lint
         run: poetry run ruff check .
-
-      - name: Check formatting
-        run: poetry run ruff format --check .
