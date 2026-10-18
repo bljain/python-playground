@@ -66,4 +66,3 @@ jobs:
 
       - name: Run Ruff lint
         run: poetry run ruff check .
-```
