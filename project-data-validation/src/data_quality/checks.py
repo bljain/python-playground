@@ -1,13 +1,12 @@
 import pandas as pd
-from data_quality.models import CheckResult, CheckStatus
-from data_quality.exceptions import CheckExecutionError
+
+from src.data_quality.exceptions import CheckExecutionError
+from src.data_quality.models import CheckResult, CheckStatus
 
 
-def check_missing_values(df: pd.DataFrame,
-                         column: str,
-                         run_id: str,
-                         check_id="missing_value_check"
-                         ) -> CheckResult:
+def check_missing_values(
+    df: pd.DataFrame, column: str, run_id: str, check_id="missing_value_check"
+) -> CheckResult:
     """Check a dataframe column for missing values.
 
     Args:
@@ -20,15 +19,13 @@ def check_missing_values(df: pd.DataFrame,
         CheckResult: Returns object for result.
     """
     if not isinstance(df, pd.DataFrame):
-        raise ValueError("Input df type must be a pandas dataframe.")
-    
+        raise TypeError("Input df type must be a pandas dataframe.")
+
     if column not in df.columns:
-        raise CheckExecutionError(
-            f"Column: '{column}' not present in the dataframe."
-            )
+        raise CheckExecutionError(f"Column: '{column}' not present in the dataframe.")
     total_count = len(df)
     missing_count = df[column].isna().sum()
-    
+
     if total_count == 0:
         status = CheckStatus.ERROR
         message = f"Can not check '{column}' for an empty dataframe."
@@ -40,9 +37,7 @@ def check_missing_values(df: pd.DataFrame,
         )
     else:
         status = CheckStatus.PASS
-        message = (
-            f"Found no missing values in the column: '{column}'."
-        )
+        message = f"Found no missing values in the column: '{column}'."
     return CheckResult(
         check_id=check_id,
         check_type="missing_values",
@@ -52,6 +47,4 @@ def check_missing_values(df: pd.DataFrame,
         message=message,
         column=column,
         run_id=run_id,
-    )     
-    
-
+    )

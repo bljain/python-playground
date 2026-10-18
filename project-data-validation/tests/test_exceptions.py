@@ -1,4 +1,4 @@
-from data_quality.exceptions import (
+from src.data_quality.exceptions import (
     CheckExecutionError,
     ConfigurationError,
     DataValidationError,
