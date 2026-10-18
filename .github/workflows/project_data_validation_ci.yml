@@ -3,6 +3,8 @@ name: Data Validation CI
 
 on:
   push:
+    branches: 
+      main
     paths:
       - "project-data-validation/**"
       - ".github/workflows/project-data-validation-ci.yml"

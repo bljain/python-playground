@@ -3,7 +3,7 @@ from datetime import UTC, datetime
 from enum import Enum
 
 
-class CheckStatus(str, Enum):
+class CheckStatus(str, Enum): # noqa: UP042
     PASS = "pass"
     FAIL = "fail"
     ERROR = "error"
