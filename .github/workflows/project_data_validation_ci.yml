@@ -15,7 +15,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  unit_test:
+    name: Run Tests
     runs-on: ubuntu-latest
 
     defaults:
@@ -34,14 +35,35 @@ jobs:
       - name: Install Poetry
         run: pipx install poetry
 
-      - name: Verify Poetry
-        run: poetry --version
-
       - name: Install dependencies
         run: poetry install --no-interaction
 
       - name: Run tests
         run: poetry run pytest -v
 
+  linting:
+    name: Lint and Format Check
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: project-data-validation
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
       - name: Run Ruff lint
         run: poetry run ruff check .
+```
