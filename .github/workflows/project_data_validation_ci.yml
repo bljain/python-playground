@@ -1,0 +1,48 @@
+
+name: Data Validation CI
+
+on:
+  push:
+    paths:
+      - "project-data-validation/**"
+      - ".github/workflows/project-data-validation-ci.yml"
+  pull_request:
+    paths:
+      - "project-data-validation/**"
+      - ".github/workflows/project-data-validation-ci.yml"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: project-data-validation
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Verify Poetry
+        run: poetry --version
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Run tests
+        run: poetry run pytest -v
+
+      - name: Run Ruff lint
+        run: poetry run ruff check .
+
+      - name: Check formatting
+        run: poetry run ruff format --check .
