@@ -1,7 +1,6 @@
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from dataclasses import dataclass
+from datetime import UTC, datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
 
 
 class CheckStatus(str, Enum):
@@ -20,7 +19,7 @@ class CheckResult:
     message: str | None
     column: str | None
     run_id: str
-    executed_at: datetime = datetime.now(timezone.utc)
+    executed_at: datetime = datetime.now(UTC)
 
     def __post_init__(self):
         if self.failed_count is not None and self.total_count is None:
@@ -51,7 +50,7 @@ class CheckResult:
             raise ValueError("check_type must be a non-empty string")
 
     @property
-    def percentage_failed(self) -> Optional[float]:
+    def percentage_failed(self) -> float | None:
         if self.failed_count is None or self.total_count is None:
             raise ValueError(
                 "failed_count and total_count must be provided \
@@ -61,17 +60,3 @@ class CheckResult:
             return None
 
         return self.failed_count / self.total_count
-
-
-if __name__ == "__main__":
-    instance_ = CheckResult(
-        check_id="sjnfj",
-        check_type="dnsjfnjnd",
-        status=CheckStatus.PASS,
-        failed_count=5,
-        total_count=None,
-        message="jgjrngj",
-        column="ndfjnsjd",
-        run_id="kdnfns",
-    )
-    instance_.percentage_failed

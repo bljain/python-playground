@@ -1,9 +1,9 @@
-import pytest
 import pandas as pd
+import pytest
 
 from src.data_quality.checks import check_missing_values
 from src.data_quality.exceptions import CheckExecutionError
-from src.data_quality.models import CheckResult, CheckStatus
+from src.data_quality.models import CheckStatus
 
 
 def test_missing_value_found():
@@ -30,10 +30,9 @@ def test_with_no_missing_value():
 def test_with_invalid_col():
     df = pd.DataFrame({"name": ["RIA", "AMAN"]})
     with pytest.raises(CheckExecutionError):
-        result = check_missing_values(df=df, column="age", run_id="check_missing")
+        _ = check_missing_values(df=df, column="age", run_id="check_missing")
 
 
 def test_with_no_input_value():
     with pytest.raises(TypeError):
         _ = check_missing_values(None, "", run_id="check_missing")
-
